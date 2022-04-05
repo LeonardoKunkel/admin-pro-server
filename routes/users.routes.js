@@ -1,9 +1,34 @@
 const router = require('express').Router()
+const { check } = require('express-validator');
 
-const userCtrl = require('../controllers/users.controller')
+const validation = require('../middlewares/segment-validation');
+const jwtValidation = require('../middlewares/jwt-validation');
 
-router.get('/', userCtrl.getUsers);
+const userCtrl = require('../controllers/users.controller');
 
-router.post('/create', userCtrl.createUser)
+router.get('/', jwtValidation, userCtrl.getUsers);
+
+router.post('/create',
+    [
+        check('name', 'Name is necessary').not().isEmpty(),
+        check('password', 'Password is necessary').not().isEmpty(),
+        check('email', 'Email is necessary').isEmail(),
+        validation
+    ],
+    userCtrl.createUser
+)
+
+router.put('/:id',
+    [
+        jwtValidation,
+        check('name', 'Name is necessary').not().isEmpty(),
+        check('email', 'Email is necessary').isEmail(),
+        check('role', 'Role is necessary').not().isEmpty(),
+        validation
+    ],
+    userCtrl.updateUser
+)
+
+router.delete('/delete/:id',jwtValidation, userCtrl.deleteUser)
 
 module.exports = router;
