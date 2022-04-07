@@ -7,12 +7,26 @@ const { tokenGenerate } = require('../helpers/jwt');
 
 exports.getUsers = async (req, res) => {
 
-    const users = await User.find();
+    // Pagination
+    const from = Number(req.query.from) || 0;
+
+    const [ users, totalUsers ] = await Promise.all([
+
+        User
+            .find({}, 'name email role google img')
+            // Pagination
+            .skip( from )
+            .limit( 5 ),
+
+        User.countDocuments()
+
+    ]);
 
     res.json({
         ok: true,
         msg: 'Users found',
-        users
+        users,
+        totalUsers
     });
 
 }
