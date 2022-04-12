@@ -40,20 +40,73 @@ exports.createHospital = async (req, res) => {
 
 }
 
-exports.updateHospital = (req, res) => {
+exports.updateHospital = async (req, res) => {
 
-    res.json({
-        ok: true,
-        msg: 'Hospital updated'
-    })
+    const id = req.params.id;
+    const uid = req.uid;
+
+    try {
+
+        const hospitalDB = await Hospital.findById( id );
+
+        if ( !hospitalDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Hospital not found by id'
+            });
+        }
+
+        const hospitalChanges = {
+            ...req.body,
+            user: uid
+        }
+
+        const hospitalUpdated = await Hospital.findByIdAndUpdate( id, hospitalChanges, { new: true } )
+
+        res.json({
+            ok: true,
+            msg: 'Hospital updated',
+            hospitalDB: hospitalUpdated
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with the admin'
+        });
+    }
 
 }
 
-exports.deleteHospital = (req, res) => {
+exports.deleteHospital = async (req, res) => {
 
-    res.json({
-        ok: true,
-        msg: 'Hospital Deleted'
-    })
+    const id = req.params.id;
+
+    try {
+
+        const hospitalDB = await Hospital.findById( id );
+
+        if ( !hospitalDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Hospital not found by id'
+            });
+        }
+
+        await Hospital.findByIdAndDelete( id )
+
+        res.json({
+            ok: true,
+            msg: 'Hospital deleted'
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with the admin'
+        })
+    }
 
 }

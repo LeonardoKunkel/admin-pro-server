@@ -41,20 +41,73 @@ exports.createMedic = async (req, res) => {
 
 }
 
-exports.updateMedic = (req, res) => {
+exports.updateMedic = async (req, res) => {
 
-    res.json({
-        ok: true,
-        msg: 'Medic Updated'
-    })
+    const id = req.params.id;
+    const uid = req.uid;
+
+    try {
+
+        const medicDB = await Medic.findById( id );
+
+        if ( !medicDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Medic not found by id'
+            });
+        }
+
+        const medicChanges = {
+            ...req.body,
+            user: uid
+        }
+
+        const medicUpdated = await Medic.findByIdAndUpdate( id, medicChanges, { new: true } )
+
+        res.json({
+            ok: true,
+            msg: 'Medic updated',
+            medicDB: medicUpdated
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with the admin'
+        });
+    }
 
 }
 
-exports.deleteMedic = (req, res) => {
+exports.deleteMedic = async (req, res) => {
 
-    res.json({
-        ok: true,
-        msg: 'Medic deleted'
-    })
+    const id = req.params.id;
+
+    try {
+
+        const medicDB = await Medic.findById( id );
+
+        if ( !medicDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Medic not found by id'
+            });
+        }
+
+        await Medic.findByIdAndDelete( id )
+
+        res.json({
+            ok: true,
+            msg: 'Medic deleted'
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with the admin'
+        })
+    }
 
 }

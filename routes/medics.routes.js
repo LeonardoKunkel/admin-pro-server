@@ -18,8 +18,21 @@ router.post('/create',
     medicCtrl.createMedic
 );
 
-router.put('/', medicCtrl.updateMedic);
+router.put('/:id',
+    [
+        jwtValidation,
+        check('name', 'Name of the medic is necessary').not().isEmpty(),
+        check('hospital', 'Invalid hospital ID').isMongoId(),
+        validation
+    ],
+    medicCtrl.updateMedic
+);
 
-router.delete('/', medicCtrl.deleteMedic);
+router.delete('/:id',
+    [
+        jwtValidation
+    ],
+    medicCtrl.deleteMedic
+);
 
 module.exports = router;

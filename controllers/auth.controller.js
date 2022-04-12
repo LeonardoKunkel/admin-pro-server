@@ -46,3 +46,17 @@ exports.login = async (req, res) => {
     }
 
 }
+
+exports.renewToken = async (req, res) => {
+
+    const uid = req.uid;
+
+    const token = await tokenGenerate( uid )
+
+    res.json({
+        ok: true,
+        uid,
+        token
+    })
+
+}
