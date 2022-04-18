@@ -51,11 +51,13 @@ exports.renewToken = async (req, res) => {
 
     const uid = req.uid;
 
-    const token = await tokenGenerate( uid )
+    const token = await tokenGenerate( uid );
+
+    const user = await User.findById( uid );
 
     res.json({
         ok: true,
-        uid,
+        user,
         token
     })
 
