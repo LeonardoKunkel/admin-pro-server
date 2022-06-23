@@ -6,6 +6,7 @@ exports.getMedics = async (req, res) => {
 
     res.json({
         ok: true,
+        msg: 'Medics found',
         allMedics
     })
 
@@ -28,6 +29,7 @@ exports.createMedic = async (req, res) => {
 
         res.json({
             ok: true,
+            msg: 'Medic created!',
             newMedic
         })
 
@@ -66,7 +68,7 @@ exports.updateMedic = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: 'Medic updated',
+            msg: 'Medic updated!',
             medicDB: medicUpdated
         })
 
@@ -99,7 +101,7 @@ exports.deleteMedic = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: 'Medic deleted'
+            msg: 'Medic deleted!'
         })
 
     } catch (error) {

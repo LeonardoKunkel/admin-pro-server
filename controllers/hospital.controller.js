@@ -6,6 +6,7 @@ exports.getHospitals = async (req, res) => {
 
     res.json({
         ok: true,
+        msg: 'Hospitals found!',
         allHospitals
     })
 
@@ -27,6 +28,7 @@ exports.createHospital = async (req, res) => {
 
         res.json({
             ok: true,
+            msg: 'Hospital created!',
             newHospital
         })
 
@@ -65,7 +67,7 @@ exports.updateHospital = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: 'Hospital updated',
+            msg: 'Hospital updated!',
             hospitalDB: hospitalUpdated
         })
 
@@ -98,7 +100,7 @@ exports.deleteHospital = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: 'Hospital deleted'
+            msg: 'Hospital deleted!'
         })
 
     } catch (error) {

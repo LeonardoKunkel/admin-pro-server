@@ -57,6 +57,7 @@ exports.createUser = async (req, res) => {
 
         res.json({
             ok: true,
+            msg: 'User created!',
             user,
             token
         })
@@ -106,6 +107,7 @@ exports.updateUser = async (req, res) => {
 
         res.json({
             ok: true,
+            msg: 'User updeted!',
             user: userUpdated
         })
 
@@ -138,7 +140,7 @@ exports.deleteUser = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: 'User deleted'
+            msg: 'User deleted!'
         })
 
     } catch (error) {
