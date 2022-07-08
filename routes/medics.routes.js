@@ -6,7 +6,9 @@ const jwtValidation = require('../middlewares/jwt-validation');
 const medicCtrl = require('../controllers/medic.controller');
 const { check } = require('express-validator');
 
-router.get('/', medicCtrl.getMedics);
+router.get('/', [jwtValidation], medicCtrl.getMedics);
+
+router.get('/:id', [jwtValidation], medicCtrl.getMedicById);
 
 router.post('/create',
     [

@@ -12,6 +12,33 @@ exports.getMedics = async (req, res) => {
 
 }
 
+exports.getMedicById = async (req, res) => {
+
+    const id = req.params.id;
+
+    try {
+        
+        const medic = await Medic.findById(id)
+                                    .populate('user', 'name img')
+                                    .populate('hospital', 'name img');
+    
+        res.status(200).json({
+            ok: true,
+            msg: 'Medic found',
+            medic
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with admin'
+        })
+    }
+
+
+}
+
 exports.createMedic = async (req, res) => {
 
     // User ID
@@ -27,7 +54,7 @@ exports.createMedic = async (req, res) => {
 
         await newMedic.save()
 
-        res.json({
+        res.status(200).json({
             ok: true,
             msg: 'Medic created!',
             newMedic

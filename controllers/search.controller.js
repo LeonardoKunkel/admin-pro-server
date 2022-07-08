@@ -55,7 +55,7 @@ exports.getCollection = async (req, res) => {
 
     }
 
-    res.json({
+    res.status(200).json({
         ok: true,
         results: data
     });
