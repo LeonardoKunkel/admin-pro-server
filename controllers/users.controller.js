@@ -107,7 +107,7 @@ exports.updateUser = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: 'User updeted!',
+            msg: 'User updated!',
             user: userUpdated
         })
 

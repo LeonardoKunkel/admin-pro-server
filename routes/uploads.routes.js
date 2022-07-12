@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 const fileUpload = require('express-fileupload');
 
-const jwtValidation = require('../middlewares/jwt-validation');
+const {jwtValidation} = require('../middlewares/jwt-validation');
 
 const uploadCtrl = require('../controllers/upload.controller');
 

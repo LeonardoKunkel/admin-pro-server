@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const validation = require('../middlewares/segment-validation');
-const jwtValidation = require('../middlewares/jwt-validation');
+const {jwtValidation} = require('../middlewares/jwt-validation');
 
 const hospitalCtrl = require('../controllers/hospital.controller');
 const { check } = require('express-validator');

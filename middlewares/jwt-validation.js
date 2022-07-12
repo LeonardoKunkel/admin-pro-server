@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const User = require('../models/User')
 
 const jwtValidation = (req, res, next) => {
 
@@ -30,4 +31,81 @@ const jwtValidation = (req, res, next) => {
 
 }
 
-module.exports = jwtValidation;
+const adminValidation = async (req, res, next) => {
+
+    const uid = req.uid;
+
+    try {
+
+        const userDB = await User.findById(uid);
+
+        if( !userDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'User does not exists'
+            });
+        }
+
+        if( userDB.role !== 'ADMIN_ROLE' ) {
+            return res.status(403).json({
+                ok: false,
+                msg: 'You do not have access'
+            });
+        }
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with admin'
+        })
+    }
+
+}
+
+const adminOrSameUserValidation = async (req, res, next) => {
+
+    const uid = req.uid;
+    const id = req.params.id;
+
+    try {
+
+        const userDB = await User.findById(uid);
+
+        if( !userDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'User does not exists'
+            });
+        }
+
+        if( userDB.role === 'ADMIN_ROLE' || uid === id ) {
+            
+            nest();
+
+        } else {
+            return res.status(403).json({
+                ok: false,
+                msg: 'You do not have access'
+            });
+        }
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Verify with admin'
+        })
+    }
+
+}
+
+module.exports = {
+    jwtValidation,
+    adminValidation,
+    adminOrSameUserValidation
+};

@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const jwtValidation = require('../middlewares/jwt-validation');
+const {jwtValidation} = require('../middlewares/jwt-validation');
 
 const searchCtrl = require('../controllers/search.controller');
 
