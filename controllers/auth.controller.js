@@ -59,8 +59,9 @@ exports.renewToken = async (req, res) => {
 
     res.json({
         ok: true,
+        token,
         user,
-        token
+        menu: getMenuFrontEnd( user.role )
     })
 
 }
