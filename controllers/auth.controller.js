@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 const { tokenGenerate } = require('../helpers/jwt');
+const { getMenuFrontEnd } = require('../helpers/menu-frontend');
 
 exports.login = async (req, res) => {
 
@@ -34,7 +35,8 @@ exports.login = async (req, res) => {
 
         res.json({
             ok: true,
-            token
+            token,
+            menu: getMenuFrontEnd( userDB.role )
         });
 
     } catch (error) {
