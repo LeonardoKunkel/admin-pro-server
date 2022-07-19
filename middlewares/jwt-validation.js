@@ -83,7 +83,7 @@ const adminOrSameUserValidation = async (req, res, next) => {
 
         if( userDB.role === 'ADMIN_ROLE' || uid === id ) {
             
-            nest();
+            next();
 
         } else {
             return res.status(403).json({
@@ -91,8 +91,6 @@ const adminOrSameUserValidation = async (req, res, next) => {
                 msg: 'You do not have access'
             });
         }
-
-        next();
 
     } catch (error) {
         console.log(error);
